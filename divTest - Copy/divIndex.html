@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Persistent Fruit Cards</title>
+  <style>
+    .fruits {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .fruitCards {
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .fruitCards h1, .fruitCards p {
+      margin: 0;
+    }
+    .deleteButton {
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .deleteButton:hover {
+      background-color: #ff0000;
+    }
+  </style>
+</head>
+<body>
+  <h1>Add Fruit Cards</h1>
+  <form id="fruitForm">
+    <input type="text" id="fruitName" placeholder="Fruit Name" required />
+    <input type="text" id="fruitColor" placeholder="Fruit Color" required />
+    <button type="submit">Add Fruit</button>
+  </form>
+  <div class="fruits" id="fruitsContainer"></div>
+
+  <script>
+    const fruitsContainer = document.getElementById('fruitsContainer');
+
+    // Load fruit cards from localStorage
+    const loadFruitCards = () => {
+      const fruitsData = JSON.parse(localStorage.getItem('fruits')) || [];
+      fruitsData.forEach(({ name, color }) => {
+        createFruitCard(name, color);
+      });
+    };
+
+    // Save fruit cards to localStorage
+    const saveFruitCards = () => {
+      const fruitCards = Array.from(fruitsContainer.children).map(card => {
+        return {
+          name: card.querySelector('h1').textContent,
+          color: card.querySelector('p').textContent,
+        };
+      });
+      localStorage.setItem('fruits', JSON.stringify(fruitCards));
+    };
+
+    // Create a fruit card
+    const createFruitCard = (name, color) => {
+      const fruitCard = document.createElement('div');
+      fruitCard.classList.add('fruitCards');
+      
+      const fruitTitle = document.createElement('h1');
+      fruitTitle.textContent = name;
+
+      const fruitDescription = document.createElement('p');
+      fruitDescription.textContent = color;
+
+      const deleteButton = document.createElement('button');
+      deleteButton.classList.add('deleteButton');
+      deleteButton.textContent = 'Delete';
+      
+      deleteButton.addEventListener('click', function () {
+        fruitCard.remove();
+        saveFruitCards(); // Update localStorage after deletion
+      });
+
+      fruitCard.appendChild(fruitTitle);
+      fruitCard.appendChild(fruitDescription);
+      fruitCard.appendChild(deleteButton);
+      fruitsContainer.appendChild(fruitCard);
+    };
+
+    // Form submission handler
+    document.getElementById('fruitForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const fruitName = document.getElementById('fruitName').value;
+      const fruitColor = document.getElementById('fruitColor').value;
+
+      createFruitCard(fruitName, fruitColor);
+      saveFruitCards(); // Save new card to localStorage
+      this.reset(); // Clear the form
+    });
+
+    // Initialize the page
+    loadFruitCards();
+  </script>
+</body>
+</html>

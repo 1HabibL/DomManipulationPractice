@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animal Information Form</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <h1>Animal Information</h1>
+
+    <!-- Animal Name Input -->
+    <input type="text" id="animalNameInput" placeholder="Enter animal name" />
+
+    <!-- Animal Color Dropdown -->
+    <select id="animalColorPicker">
+      <option value="Black">Black</option>
+      <option value="White">White</option>
+      <option value="Brown">Brown</option>
+      <option value="Gray">Gray</option>
+      <option value="Golden">Golden</option>
+    </select>
+
+    <!-- Animal DOB -->
+    <input type="date" id="animalDOBInput" />
+
+    <!-- Add Animal Button -->
+    <button id="addAnimalButton">Add Animal</button>
+
+    <!-- Animal List -->
+    <ul id="animalListContainer"></ul>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
