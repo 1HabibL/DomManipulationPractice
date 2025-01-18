@@ -54,6 +54,9 @@
 
   <script>
     const fruitsContainer = document.getElementById('fruitsContainer');
+    const inputtedFruitTitle = document.getElementById('fruitName')
+    const inputtedfruitColor = document.getElementById('fruitColor')
+
 
     // Load fruit cards from localStorage
     const loadFruitCards = () => {
@@ -81,9 +84,11 @@
       fruitCard.classList.add('fruitCards');
       
       const fruitTitle = document.createElement('h1');
+      fruitTitle.id = 'fruitTitle'
       fruitTitle.textContent = name;
 
       const fruitDescription = document.createElement('p');
+      fruitDescription.id = 'fruitDescription'
       fruitDescription.textContent = color;
 
       const deleteButton = document.createElement('button');
@@ -101,11 +106,11 @@
       editButton.textContent = 'edit';
 
       editButton.addEventListener('click', function () {
-        fruitTitle.remove()
-        fruitDescription.remove();
-        deleteButton.remove();
-        editButton.remove();
 
+        const currentTitle = fruitTitle.textContent;
+        const currentDescription = fruitDescription.textContent
+
+        fruitCard.innerHTML = "";
          /* edit fruit title */
           
         /* newFruitName */
@@ -117,12 +122,11 @@
         const newFruitName = document.createElement('input');
         newFruitName.classList.add('editNewTitle')
         newFruitName.id = 'newFruitName'
+        newFruitName.value = currentTitle;
         fruitCard.appendChild(newFruitName);
 
         newFruitName.type = 'text';
-        newFruitName.value = fruitTitle.textContent;
         /* newFruitName */
-
 
         /* edit task title */
          /* edit task desc */
@@ -139,7 +143,7 @@
         fruitCard.appendChild(newFruitDesc);
 
         newFruitDesc.type = 'text';
-        newFruitDesc.value = fruitDescription.textContent;
+        newFruitDesc.value = currentDescription
       /* newFruitDesc */
 
         const cancelButton = document.createElement('button');
@@ -159,30 +163,18 @@
 
 /* update buton */
 updateButton.addEventListener('click', function (event){
- 
-  /* create new updated Elements (just use same elements as before) */
-  const fruitName1 = document.getElementById('newFruitName').value;
-  const fruitColor1 = document.getElementById('newFruitDesc').value;
+  // Update the original elements
+  fruitTitle.textContent = newFruitName.value;
+  fruitDescription.textContent = newFruitDesc.value;
 
-  const fruitTitleNew = document.createElement('h1');
-  fruitTitleNew.textContent = fruitName1;
+fruitCard.innerHTML = "";
 
-const fruitDescriptionNew = document.createElement('p');
-fruitDescriptionNew.textContent = fruitColor1;
-
-newFruitNameLabel.remove()
-  newFruitName.remove()
-  newFruitDescLabel.remove()
-  newFruitDesc.remove()
-
-
-
-   /* create new updated Elements (just use same elements as before) */
-
-  fruitCard.appendChild(fruitTitleNew);
-  fruitCard.appendChild(fruitDescriptionNew);
+  fruitCard.appendChild(fruitTitle);
+  fruitCard.appendChild(fruitDescription);
   fruitCard.appendChild(deleteButton);
   fruitCard.appendChild(editButton);
+
+
   saveFruitCards();
 })
 
